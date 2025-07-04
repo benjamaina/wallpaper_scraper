@@ -1,66 +1,91 @@
-# 🖼️ Wallpaper Scraper & Auto-Changer
+# 🖼️ Telegram Wallpaper Bot
 
-A Python script that scrapes high-quality wallpapers from the web and sets them as your desktop background automatically. Built using `requests`, `BeautifulSoup`, and `ctypes` for Windows integration.
+This is an automated wallpaper scraper and Telegram bot that fetches high-quality wallpapers from [Reddit](https://www.reddit.com/r/wallpapers/) and sends them to a Telegram channel at regular intervals.
 
-## 🌟 Features
+---
 
-- 🔍 Scrape and download wallpaper images from a target URL
-- 🖥️ Automatically set the downloaded image as the desktop wallpaper (Windows)
-- 📁 Saves wallpapers locally in a specified folder
-- ⚙️ Easy to customize scraping source or image criteria
+## 📌 Features
 
-## 🧰 Tech Stack
+- Scrapes top wallpapers from [r/wallpapers](https://www.reddit.com/r/wallpapers)
+- Downloads `.jpg` and `.png` images to a local `Wallpapers/` folder
+- Sends one random wallpaper to a Telegram channel every hour
+- Logs posted wallpapers to avoid repeats
+- Automatically sleeps between downloads to avoid rate-limiting
+
+---
+
+## 🛠️ Tech Stack
 
 - Python 3
-- `requests`
-- `BeautifulSoup`
-- `os`, `ctypes`, `random` (built-in modules)
+- `requests` for API calls
+- `dotenv` for environment variables
+- Reddit JSON API (no login needed)
+- Telegram Bot API
 
-## 📁 Project Structure
+---
+
+## 📁 Folder Structure
 
 wallpaper_scraper/
-├── wallpaper.py # Main script
-└── wallpapers/ # Folder where wallpapers are saved
+│
+├── main.py # Runs both scraper and bot using threading
+├── wallpaper.py # Handles Reddit scraping and downloading
+├── telegram_bot.py # Handles Telegram bot sending logic
+├── .env # (Optional) Local environment variables (do NOT commit)
+├── requirements.txt # Python dependencies
 
-bash
-Copy
-Edit
 
-## ▶️ How to Run
+---
 
-1. Clone the repository:
+## ⚙️ Setup (Local)
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/benjamaina/wallpaper_scraper.git
 cd wallpaper_scraper
-Install dependencies:
 
-bash
-Copy
-Edit
-pip install requests beautifulsoup4
-Run the script:
+2. Create a Virtual Environment (optional but recommended)
 
-bash
-Copy
-Edit
-python wallpaper.py
-A new wallpaper will be downloaded and set as your desktop background instantly! 🔄
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
 
-🧪 How It Works
-Connects to a wallpaper site (can be customized)
+3. Install Dependencies
+pip install -r requirements.txt
 
-Scrapes image URLs using BeautifulSoup
+4. Set Environment Variables
+Create a .env file:
+BOT_TOKEN=your_telegram_bot_token
+CHAT_ID=@your_channel_username_or_id
+💡 Ensure your bot is added to your Telegram channel and is an admin.
 
-Randomly selects and downloads a wallpaper
+▶️ Run the Bot Locally
+python main.py
+This will:
 
-Uses ctypes to update your wallpaper (Windows only)
+Continuously scrape wallpapers every few minutes
 
-🚀 Future Ideas
-Add support for multiple sources (e.g., Unsplash, Pexels)
+Post one unposted wallpaper to Telegram every hour
 
-Add auto-run on startup
+✅ To-Do / Improvements
+ Add optional image compression or resizing
 
-Create a GUI using Tkinter or PyQt
+ Integrate with AWS S3 or other cloud storage
 
-Mac and Linux support
+ Add SQLite DB to persist posted.txt state
+
+ Scheduled posting using APScheduler or Celery (for non-threading solution)
+
+👤 Author
+Benjamin Maina
+GitHub: @benjamaina
+
+🖼️ Sample Channel Output
+Once it's running, the bot will post like this:
+
+mathematica
+
+📷 Beautiful Sunset Over Mountains
+[wallpaper.jpg]
+
